@@ -5,12 +5,11 @@ from typing import TYPE_CHECKING, Optional, final
 
 from extras import probe
 
+from .endstop import ScannerEndstopWrapper
+
 if TYPE_CHECKING:
     from klippy.configfile import ConfigWrapper
     from klippy.gcode import GCodeCommand
-    from klippy.mcu import MCU
-    from klippy.reactor import ReactorCompletion
-    from klippy.stepper import MCU_stepper
 
 
 @final
@@ -21,55 +20,6 @@ class PrinterScanner:
         probe_interface = ScannerProbeWrapper(config, endstop)
         printer.add_object("probe", probe_interface)
         logging.info("Successfully added probe!")
-
-
-@final
-class ScannerEndstopWrapper(probe.ProbeEndstopWrapper):
-    def __init__(self, config: ConfigWrapper):
-        pass
-
-    def get_mcu(self) -> MCU:
-        raise NotImplementedError()
-
-    def add_stepper(self, stepper: MCU_stepper) -> None:
-        raise NotImplementedError()
-
-    def get_steppers(self) -> list[MCU_stepper]:
-        raise NotImplementedError()
-
-    def home_start(
-        self,
-        print_time: float,
-        sample_time: float,
-        sample_count: int,
-        rest_time: float,
-        triggered: bool = True,
-    ) -> ReactorCompletion:
-        raise NotImplementedError()
-
-    def home_wait(self, home_end_time: float) -> float:
-        raise NotImplementedError()
-
-    def query_endstop(self, print_time: float) -> int:
-        raise NotImplementedError()
-
-    def multi_probe_begin(self) -> None:
-        raise NotImplementedError()
-
-    def multi_probe_end(self) -> None:
-        raise NotImplementedError()
-
-    def probing_move(self, pos: "list[float]", speed: float) -> "list[float]":
-        raise NotImplementedError()
-
-    def probe_prepare(self, hmove: float) -> None:
-        raise NotImplementedError()
-
-    def probe_finish(self, hmove: float) -> None:
-        raise NotImplementedError()
-
-    def get_position_endstop(self) -> float:
-        raise NotImplementedError()
 
 
 @final
