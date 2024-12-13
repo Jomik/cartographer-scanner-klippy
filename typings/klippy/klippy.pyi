@@ -2,6 +2,7 @@
 from typing import Callable, Literal, TypeVar, overload
 
 from extras.probe import PrinterProbe
+from klippy.pins import PrinterPins
 
 import configfile
 from extras.bed_mesh import BedMesh
@@ -66,6 +67,9 @@ class Printer:
         pass
     @overload
     def lookup_object(self, name: Literal["mcu"]) -> MCU:
+        pass
+    @overload
+    def lookup_object(self, name: Literal["pins"]) -> PrinterPins:
         pass
     @overload
     def lookup_object(self, name: Literal["scanner"]) -> PrinterScanner:

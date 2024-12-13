@@ -1,9 +1,9 @@
 # https://github.com/Klipper3d/klipper/blob/master/klippy/mcu.py
 
-from typing import Callable, TypedDict, TypeVar, overload
+from typing import Callable, Protocol, TypedDict, TypeVar, overload
 
 from clocksync import ClockSync
-from klippy import Printer
+from .klippy import Printer
 from reactor import ReactorCompletion
 from stepper import MCU_stepper
 
@@ -108,4 +108,25 @@ class CommandQueryWrapper:
     def send(
         self, data: object = (), minclock: int = 0, reqclock: int = 0
     ) -> dict[str, object]:
+        pass
+
+class MCU_endstop(Protocol):
+    def get_mcu(self) -> MCU:
+        pass
+    def add_stepper(self, stepper: MCU_stepper) -> None:
+        pass
+    def get_steppers(self) -> list[MCU_stepper]:
+        pass
+    def home_start(
+        self,
+        print_time: float,
+        sample_time: float,
+        sample_count: int,
+        rest_time: float,
+        triggered: bool = True,
+    ) -> ReactorCompletion:
+        pass
+    def home_wait(self, home_end_time: float) -> float:
+        pass
+    def query_endstop(self, print_time: float) -> int:
         pass

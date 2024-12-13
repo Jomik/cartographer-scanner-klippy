@@ -1,6 +1,7 @@
 from typing import Callable, Protocol, Tuple, TypedDict
 from klippy.configfile import ConfigWrapper
 from klippy.gcode import GCodeCommand
+from klippy.mcu import MCU_endstop
 
 HINT_TIMEOUT: str
 
@@ -54,7 +55,7 @@ class ProbeSessionHelper:
     def pull_probed_results(self) -> list[float]:
         pass
 
-class ProbeEndstopWrapper(Protocol):
+class ProbeEndstopWrapper(MCU_endstop, Protocol):
     def multi_probe_begin(self) -> None:
         pass
     def multi_probe_end(self) -> None:
