@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, final
-from typing_extensions import override
 
-from extras import probe
+from extras.probe import ProbeEndstopWrapper
+from typing_extensions import override
 
 if TYPE_CHECKING:
     from klippy.configfile import ConfigWrapper
@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 
 
 @final
-class ScannerEndstopWrapper(probe.ProbeEndstopWrapper):
+class ScannerEndstopWrapper(ProbeEndstopWrapper):
     def __init__(self, config: ConfigWrapper):
         pass
 

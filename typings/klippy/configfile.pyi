@@ -2,7 +2,7 @@
 import configparser
 from typing import overload
 
-from .klippy import Printer
+from klippy.klippy import Printer
 
 error = configparser.Error
 

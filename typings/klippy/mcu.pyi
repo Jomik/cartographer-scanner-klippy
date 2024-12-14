@@ -1,23 +1,25 @@
 # https://github.com/Klipper3d/klipper/blob/master/klippy/mcu.py
 
-from typing import Callable, Protocol, TypedDict, TypeVar, overload
+from typing import Any, Callable, Protocol, TypedDict, TypeVar, overload
 
-from clocksync import ClockSync
-from .klippy import Printer
-from reactor import ReactorCompletion
-from stepper import MCU_stepper
+from klippy.klippy import Printer
+from klippy.reactor import ReactorCompletion
+from klippy.stepper import MCU_stepper
 
 T = TypeVar("T")
 
-class MCUStatus(TypedDict):
+class error(Exception):
+    pass
+
+class _MCUStatus(TypedDict):
     mcu_version: str
 
 class _CommandQueue:
     pass
 
 class MCU:
-    _mcu_freq: float
-    _clocksync: ClockSync
+    error: type[error]
+
     class sentinel:
         pass
 
@@ -52,7 +54,7 @@ class MCU:
         pass
     def get_printer(self) -> Printer:
         pass
-    def get_status(self) -> MCUStatus:
+    def get_status(self) -> _MCUStatus:
         pass
     def is_fileoutput(self) -> bool:
         pass
@@ -101,13 +103,11 @@ class MCU_trsync:
         pass
 
 class CommandWrapper:
-    def send(self, data: object = (), minclock: int = 0, reqclock: int = 0) -> None:
+    def send(self, data: list[int] = [], minclock: int = 0, reqclock: int = 0) -> None:
         pass
 
-class CommandQueryWrapper:
-    def send(
-        self, data: object = (), minclock: int = 0, reqclock: int = 0
-    ) -> dict[str, object]:
+class CommandQueryWrapper[T = Any]:
+    def send(self, data: list[int] = [], minclock: int = 0, reqclock: int = 0) -> T:
         pass
 
 class MCU_endstop(Protocol):

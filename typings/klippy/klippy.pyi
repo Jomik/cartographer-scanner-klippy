@@ -1,19 +1,17 @@
 # https://github.com/Klipper3d/klipper/blob/master/klippy/klippy.py
 from typing import Callable, Literal, TypeVar, overload
 
-from extras.probe import PrinterProbe
-from klippy.pins import PrinterPins
-
 import configfile
 from extras.bed_mesh import BedMesh
-from configfile import ConfigWrapper, PrinterConfig, sentinel
-from gcode import CommandError, GCodeDispatch
 from extras.heaters import PrinterHeaters
 from extras.homing import PrinterHoming
-from mcu import MCU
-from reactor import Reactor
-from toolhead import ToolHead
-from webhooks import WebHooks
+from extras.probe import PrinterProbe
+from klippy.configfile import ConfigWrapper, PrinterConfig, sentinel
+from klippy.gcode import CommandError, GCodeDispatch
+from klippy.pins import PrinterPins
+from klippy.reactor import Reactor
+from klippy.stepper import PrinterRail
+from klippy.toolhead import ToolHead
 
 from cartographer.scanner import PrinterScanner
 
@@ -53,7 +51,34 @@ class Printer:
         pass
     def get_reactor(self) -> Reactor:
         pass
-    def register_event_handler(self, event: str, callback: Callable[..., None]) -> None:
+    @overload
+    def register_event_handler(
+        self, event: Literal["klippy:connect"], callback: Callable[[], None]
+    ) -> None:
+        pass
+    @overload
+    def register_event_handler(
+        self, event: Literal["klippy:disconnect"], callback: Callable[[], None]
+    ) -> None:
+        pass
+    @overload
+    def register_event_handler(
+        self, event: Literal["klippy:mcu_identify"], callback: Callable[[], None]
+    ) -> None:
+        pass
+    @overload
+    def register_event_handler(
+        self,
+        event: Literal["homing:home_rails_begin"],
+        callback: Callable[[PrinterHoming, list[PrinterRail]], None],
+    ) -> None:
+        pass
+    @overload
+    def register_event_handler(
+        self,
+        event: Literal["homing:home_rails_end"],
+        callback: Callable[[PrinterHoming, list[PrinterRail]], None],
+    ) -> None:
         pass
 
     @overload
@@ -66,9 +91,6 @@ class Printer:
     def lookup_object(self, name: Literal["homing"]) -> PrinterHoming:
         pass
     @overload
-    def lookup_object(self, name: Literal["mcu"]) -> MCU:
-        pass
-    @overload
     def lookup_object(self, name: Literal["pins"]) -> PrinterPins:
         pass
     @overload
@@ -76,9 +98,6 @@ class Printer:
         pass
     @overload
     def lookup_object(self, name: Literal["toolhead"]) -> ToolHead:
-        pass
-    @overload
-    def lookup_object(self, name: Literal["webhooks"]) -> WebHooks:
         pass
     @overload
     def lookup_object(self, name: str, default: T | type[sentinel] = sentinel) -> T:
