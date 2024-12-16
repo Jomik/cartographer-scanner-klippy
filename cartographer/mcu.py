@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from enum import IntEnum
 import struct
-from typing import TYPE_CHECKING, Literal, Optional, Tuple, TypedDict, final
+from typing import TYPE_CHECKING, Optional, Tuple, TypedDict, final
 
 from klippy import mcu
 
@@ -28,7 +28,7 @@ class BaseData(TypedDict):
 
 
 @final
-class ScannerMCU:
+class ScannerMCUHelper:
     _stream_command: Optional[CommandWrapper] = None
     _set_threshold_command: Optional[CommandWrapper] = None
     _start_home_command: Optional[CommandWrapper] = None
@@ -49,6 +49,9 @@ class ScannerMCU:
         printer.register_event_handler("klippy:mcu_identify", self._handle_mcu_identify)
         self._mcu.register_config_callback(self._build_config)
         self._mcu.register_response(self._handle_data, "cartographer_data")
+
+    def get_mcu(self) -> MCU:
+        return self._mcu
 
     def _handle_connect(self) -> None:
         raise NotImplementedError()

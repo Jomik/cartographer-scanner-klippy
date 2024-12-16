@@ -5,6 +5,8 @@ from typing import TYPE_CHECKING, final
 from extras.probe import ProbeEndstopWrapper
 from typing_extensions import override
 
+from cartographer.mcu import ScannerMCUHelper
+
 if TYPE_CHECKING:
     from klippy.configfile import ConfigWrapper
     from klippy.mcu import MCU
@@ -14,12 +16,12 @@ if TYPE_CHECKING:
 
 @final
 class ScannerEndstopWrapper(ProbeEndstopWrapper):
-    def __init__(self, config: ConfigWrapper):
-        pass
+    def __init__(self, config: ConfigWrapper, mcu_helper: ScannerMCUHelper):
+        self._mcu_helper = mcu_helper
 
     @override
     def get_mcu(self) -> MCU:
-        raise NotImplementedError()
+        return self._mcu_helper.get_mcu()
 
     @override
     def add_stepper(self, stepper: MCU_stepper) -> None:

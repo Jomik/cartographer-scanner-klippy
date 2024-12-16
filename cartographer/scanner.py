@@ -7,7 +7,7 @@ from extras import probe
 from typing_extensions import override
 
 from cartographer.endstop import ScannerEndstopWrapper
-from cartographer.mcu import ScannerMCU
+from cartographer.mcu import ScannerMCUHelper
 
 if TYPE_CHECKING:
     from klippy.configfile import ConfigWrapper
@@ -18,15 +18,15 @@ if TYPE_CHECKING:
 class PrinterScanner:
     def __init__(self, config: ConfigWrapper):
         printer = config.get_printer()
-        endstop = ScannerEndstopWrapper(config)
-        mcu = ScannerMCU(config)
-        probe_interface = ScannerProbeInterface(config, endstop)
+        mcu_helper = ScannerMCUHelper(config)
+        endstop = ScannerEndstopWrapper(config, mcu_helper)
+        probe_interface = ScannerProbe(config, endstop)
         printer.add_object("probe", probe_interface)
         logging.info("Successfully added probe!")
 
 
 @final
-class ScannerProbeInterface(probe.PrinterProbe):
+class ScannerProbe(probe.PrinterProbe):
     def __init__(self, config: ConfigWrapper, endstop: ScannerEndstopWrapper):
         self.cmd_helper = probe.ProbeCommandHelper(config, self, endstop.query_endstop)
         self.probe_offsets = probe.ProbeOffsetsHelper(config)
