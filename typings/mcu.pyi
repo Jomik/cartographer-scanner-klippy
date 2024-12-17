@@ -2,9 +2,9 @@
 
 from typing import Any, Callable, Protocol, TypedDict, TypeVar, overload
 
-from klippy.klippy import Printer
-from klippy.reactor import ReactorCompletion
-from klippy.stepper import MCU_stepper
+from klippy import Printer
+from reactor import ReactorCompletion
+from stepper import MCU_stepper
 
 T = TypeVar("T")
 

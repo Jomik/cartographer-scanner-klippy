@@ -1,7 +1,6 @@
-from klippy import configfile
-
+from configfile import ConfigWrapper
 from cartographer.scanner import PrinterScanner
 
 
-def load_config(config: configfile.ConfigWrapper):
+def load_config(config: ConfigWrapper):
     return PrinterScanner(config)

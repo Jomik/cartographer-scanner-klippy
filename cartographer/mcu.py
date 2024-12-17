@@ -1,15 +1,11 @@
 from __future__ import annotations
 
-from enum import IntEnum
 import struct
-from typing import TYPE_CHECKING, Optional, Tuple, TypedDict, final
+from enum import IntEnum
+from typing import Optional, Tuple, TypedDict, final
 
-from klippy import mcu
-
-
-if TYPE_CHECKING:
-    from klippy.configfile import ConfigWrapper
-    from klippy.mcu import MCU, CommandWrapper, CommandQueryWrapper
+from configfile import ConfigWrapper
+from mcu import MCU, CommandQueryWrapper, CommandWrapper, MCU_trsync
 
 
 class _RawSample(TypedDict):
@@ -109,7 +105,7 @@ class ScannerMCUHelper:
         if self._start_home_command is None:
             raise self._mcu.error("start home command not initialized")
 
-        trigger_reason = mcu.MCU_trsync.REASON_ENDSTOP_HIT
+        trigger_reason = MCU_trsync.REASON_ENDSTOP_HIT
         trigger_invert = 0
 
         self._start_home_command.send(

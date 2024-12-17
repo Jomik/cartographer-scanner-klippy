@@ -1,7 +1,7 @@
 from typing import Callable, Protocol, Tuple, TypedDict
-from klippy.configfile import ConfigWrapper
-from klippy.gcode import GCodeCommand
-from klippy.mcu import MCU_endstop
+from configfile import ConfigWrapper
+from gcode import GCodeCommand
+from mcu import MCU_endstop
 
 HINT_TIMEOUT: str
 

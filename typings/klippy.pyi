@@ -6,12 +6,12 @@ from extras.bed_mesh import BedMesh
 from extras.heaters import PrinterHeaters
 from extras.homing import PrinterHoming
 from extras.probe import PrinterProbe
-from klippy.configfile import ConfigWrapper, PrinterConfig, sentinel
-from klippy.gcode import CommandError, GCodeDispatch
-from klippy.pins import PrinterPins
-from klippy.reactor import Reactor
-from klippy.stepper import PrinterRail
-from klippy.toolhead import ToolHead
+from configfile import ConfigWrapper, PrinterConfig, sentinel
+from gcode import CommandError, GCodeDispatch
+from pins import PrinterPins
+from reactor import Reactor
+from stepper import PrinterRail
+from toolhead import ToolHead
 
 from cartographer.scanner import PrinterScanner
 

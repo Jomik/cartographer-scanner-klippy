@@ -1,7 +1,7 @@
 # https://github.com/Klipper3d/klipper/blob/master/klippy/stepper.py
 from typing import Literal
 
-from klippy.mcu import MCU
+from mcu import MCU
 
 type _Pos = list[float]
 

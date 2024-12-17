@@ -1,10 +1,9 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, final
-from numpy.polynomial import Polynomial
+from typing import final
 
-if TYPE_CHECKING:
-    from klippy.configfile import ConfigWrapper
+from configfile import ConfigWrapper
+from numpy.polynomial import Polynomial
 
 
 @final

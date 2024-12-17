@@ -1,9 +1,9 @@
 # https://github.com/Klipper3d/klipper/blob/master/klippy/toolhead.py
 from typing import Sequence, TypedDict
 
-from klippy import gcode
-from klippy.kinematics.extruder import Extruder
-from klippy.kinematics.none import NoneKinematics
+import gcode
+from kinematics.extruder import Extruder
+from kinematics.none import NoneKinematics
 
 class _KinematicsStatus(TypedDict):
     homed_axes: str

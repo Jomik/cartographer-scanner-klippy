@@ -1,17 +1,15 @@
 from __future__ import annotations
 
 import logging
-from typing import TYPE_CHECKING, Optional, final
+from typing import Optional, final
 
+from configfile import ConfigWrapper
 from extras import probe
+from gcode import GCodeCommand
 from typing_extensions import override
 
 from cartographer.endstop import ScannerEndstopWrapper
 from cartographer.mcu import ScannerMCUHelper
-
-if TYPE_CHECKING:
-    from klippy.configfile import ConfigWrapper
-    from klippy.gcode import GCodeCommand
 
 
 @final

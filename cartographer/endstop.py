@@ -1,17 +1,15 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, final
+from typing import final
 
+from configfile import ConfigWrapper
 from extras.probe import ProbeEndstopWrapper
+from mcu import MCU
+from reactor import ReactorCompletion
+from stepper import MCU_stepper
 from typing_extensions import override
 
 from cartographer.mcu import ScannerMCUHelper
-
-if TYPE_CHECKING:
-    from klippy.configfile import ConfigWrapper
-    from klippy.mcu import MCU
-    from klippy.reactor import ReactorCompletion
-    from klippy.stepper import MCU_stepper
 
 
 @final
