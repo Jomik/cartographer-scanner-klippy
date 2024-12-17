@@ -3,7 +3,7 @@
 set -euo pipefail
 
 FILE_NAME="cartographer.py"
-PACKAGE_NAME="cartographer-scanner-klippy"
+PACKAGE_NAME="jomik-cartographer"
 
 function display_help() {
   echo "Usage: $0 [OPTIONS]"
