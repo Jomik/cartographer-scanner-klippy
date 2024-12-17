@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import struct
 from enum import IntEnum
 from typing import Optional, Tuple, TypedDict, final
@@ -81,7 +82,7 @@ class ScannerMCUHelper:
 
     def _handle_data(self, sample: _RawSample) -> None:
         self._last_sample = sample
-        raise NotImplementedError()
+        logging.info(f"Sample: {sample}")
 
     def get_last_sample(self) -> Optional[_RawSample]:
         return self._last_sample
