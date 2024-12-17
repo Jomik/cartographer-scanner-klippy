@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-FILE_NAME="scanner.py"
+FILE_NAME="cartographer.py"
 PACKAGE_NAME="cartographer-scanner-klippy"
 
 function display_help() {
