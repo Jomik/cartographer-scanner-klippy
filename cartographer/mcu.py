@@ -43,7 +43,7 @@ class ScannerMCUHelper:
 
         printer.register_event_handler("klippy:connect", self._handle_connect)
         printer.register_event_handler("klippy:disconnect", self._handle_disconnect)
-        printer.register_event_handler("klippy:mcu_identify", self._handle_mcu_identify)
+        printer.register_event_handler("klippy:shutdown", self._handle_shutdown)
         self._mcu.register_config_callback(self._build_config)
         self._mcu.register_response(self._handle_data, "cartographer_data")
 
@@ -56,7 +56,7 @@ class ScannerMCUHelper:
     def _handle_disconnect(self) -> None:
         raise NotImplementedError()
 
-    def _handle_mcu_identify(self) -> None:
+    def _handle_shutdown(self) -> None:
         raise NotImplementedError()
 
     def _build_config(self) -> None:
