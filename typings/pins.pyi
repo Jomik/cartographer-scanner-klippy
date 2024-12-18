@@ -2,8 +2,7 @@
 
 from typing import Protocol, TypedDict
 
-class error(Exception):
-    pass
+class error(Exception): ...
 
 class _PinParams(TypedDict):
     chip: _Chip
@@ -13,10 +12,8 @@ class _PinParams(TypedDict):
     pullup: int
 
 class _Chip(Protocol):
-    def setup_pin(self, pin_type: str, pin_params: _PinParams) -> None:
-        pass
+    def setup_pin(self, pin_type: str, pin_params: _PinParams) -> None: ...
 
 class PrinterPins:
     error: type[error]
-    def register_chip(self, chip_name: str, chip: _Chip) -> None:
-        pass
+    def register_chip(self, chip_name: str, chip: _Chip) -> None: ...

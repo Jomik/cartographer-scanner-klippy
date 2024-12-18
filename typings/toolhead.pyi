@@ -20,33 +20,20 @@ class _Status(_KinematicsStatus):
     max_accel: float
     minimum_cruise_ratio: float
     square_corner_velocity: float
-    pass
 
 type _Pos = list[float]
 
 class ToolHead:
     Coord: type[gcode.Coord]
-    def get_kinematics(self) -> NoneKinematics:
-        pass
-    def get_extruder(self) -> Extruder:
-        pass
-    def get_status(self, eventtime: float) -> _Status:
-        pass
-    def get_position(self) -> _Pos:
-        pass
-    def set_position(self, newpos: _Pos, homing_axes: Sequence[int] = ()) -> None:
-        pass
-    def move(self, newpos: _Pos, speed: float) -> None:
-        pass
-    def wait_moves(self) -> None:
-        pass
-    def dwell(self, delay: float) -> None:
-        pass
-    def flush_step_generation(self) -> None:
-        pass
-    def manual_move(self, coord: _Pos | list[float | None], speed: float) -> None:
-        pass
-    def get_trapq(self) -> str:
-        pass
-    def get_last_move_time(self) -> float:
-        pass
+    def get_kinematics(self) -> NoneKinematics: ...
+    def get_extruder(self) -> Extruder: ...
+    def get_status(self, eventtime: float) -> _Status: ...
+    def get_position(self) -> _Pos: ...
+    def set_position(self, newpos: _Pos, homing_axes: Sequence[int] = ()) -> None: ...
+    def move(self, newpos: _Pos, speed: float) -> None: ...
+    def wait_moves(self) -> None: ...
+    def dwell(self, delay: float) -> None: ...
+    def flush_step_generation(self) -> None: ...
+    def manual_move(self, coord: _Pos | list[float | None], speed: float) -> None: ...
+    def get_trapq(self) -> str: ...
+    def get_last_move_time(self) -> float: ...

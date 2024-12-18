@@ -6,14 +6,9 @@ from mcu import MCU
 type _Pos = list[float]
 
 class MCU_stepper:
-    def get_mcu(self) -> MCU:
-        pass
-    def get_name(self, short: bool = False) -> str:
-        pass
-    def get_commanded_position(self) -> _Pos:
-        pass
-    def is_active_axis(self, axis: Literal["x", "y", "z", "e"]) -> bool:
-        pass
+    def get_mcu(self) -> MCU: ...
+    def get_name(self, short: bool = False) -> str: ...
+    def get_commanded_position(self) -> _Pos: ...
+    def is_active_axis(self, axis: Literal["x", "y", "z", "e"]) -> bool: ...
 
-class PrinterRail:
-    pass
+class PrinterRail: ...

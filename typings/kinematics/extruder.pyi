@@ -4,7 +4,5 @@ from extras.heaters import Heater
 
 @final
 class Extruder:
-    def get_name(self) -> str:
-        pass
-    def get_heater(self) -> Heater:
-        pass
+    def get_name(self) -> str: ...
+    def get_heater(self) -> Heater: ...

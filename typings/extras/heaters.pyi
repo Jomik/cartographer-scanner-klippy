@@ -7,9 +7,7 @@ class _Status(TypedDict):
     power: float
 
 class Heater:
-    pass
-    def get_status(self, eventtime: float) -> _Status:
-        pass
+    def get_status(self, eventtime: float) -> _Status: ...
 
 class PrinterHeaters:
     available_sensors: list[str]

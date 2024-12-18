@@ -16,21 +16,14 @@ class ProbeCommandHelper:
         config: ConfigWrapper,
         probe: object,
         query_endstop: Callable[[float], int] | None = None,
-    ) -> None:
-        pass
-
-    def get_status(self, eventtime: float) -> _ProbeStatus:
-        pass
+    ) -> None: ...
+    def get_status(self, eventtime: float) -> _ProbeStatus: ...
 
 class ProbeOffsetsHelper:
-    def __init__(self, config: ConfigWrapper) -> None:
-        pass
+    def __init__(self, config: ConfigWrapper) -> None: ...
+    def get_offsets(self) -> Tuple[float, float, float]: ...
 
-    def get_offsets(self) -> Tuple[float, float, float]:
-        pass
-
-class _ProbeSession(Protocol):
-    pass
+class _ProbeSession(Protocol): ...
 
 class _ProbeParams(TypedDict):
     probe_speed: float
@@ -42,39 +35,25 @@ class _ProbeParams(TypedDict):
     samples_result: float
 
 class ProbeSessionHelper:
-    def __init__(self, config: ConfigWrapper, mcu_probe: ProbeEndstopWrapper) -> None:
-        pass
-    def start_probe_session(self, gcmd: GCodeCommand) -> _ProbeSession:
-        pass
-    def end_probe_session(self) -> None:
-        pass
-    def get_probe_params(self, gcmd: GCodeCommand | None = None) -> _ProbeParams:
-        pass
-    def run_probe(self, gcmd: GCodeCommand) -> None:
-        pass
-    def pull_probed_results(self) -> list[float]:
-        pass
+    def __init__(
+        self, config: ConfigWrapper, mcu_probe: ProbeEndstopWrapper
+    ) -> None: ...
+    def start_probe_session(self, gcmd: GCodeCommand) -> _ProbeSession: ...
+    def end_probe_session(self) -> None: ...
+    def get_probe_params(self, gcmd: GCodeCommand | None = None) -> _ProbeParams: ...
+    def run_probe(self, gcmd: GCodeCommand) -> None: ...
+    def pull_probed_results(self) -> list[float]: ...
 
 class ProbeEndstopWrapper(MCU_endstop, Protocol):
-    def multi_probe_begin(self) -> None:
-        pass
-    def multi_probe_end(self) -> None:
-        pass
-    def probing_move(self, pos: list[float], speed: float) -> list[float]:
-        pass
-    def probe_prepare(self, hmove: float) -> None:
-        pass
-    def probe_finish(self, hmove: float) -> None:
-        pass
-    def get_position_endstop(self) -> float:
-        pass
+    def multi_probe_begin(self) -> None: ...
+    def multi_probe_end(self) -> None: ...
+    def probing_move(self, pos: list[float], speed: float) -> list[float]: ...
+    def probe_prepare(self, hmove: float) -> None: ...
+    def probe_finish(self, hmove: float) -> None: ...
+    def get_position_endstop(self) -> float: ...
 
 class PrinterProbe(Protocol):
-    def get_probe_params(self, gcmd: GCodeCommand | None = None) -> _ProbeParams:
-        pass
-    def get_offsets(self) -> Tuple[float, float, float]:
-        pass
-    def get_status(self, eventtime: float) -> _ProbeStatus:
-        pass
-    def start_probe_session(self, gcmd: GCodeCommand) -> _ProbeSession:
-        pass
+    def get_probe_params(self, gcmd: GCodeCommand | None = None) -> _ProbeParams: ...
+    def get_offsets(self) -> Tuple[float, float, float]: ...
+    def get_status(self, eventtime: float) -> _ProbeStatus: ...
+    def start_probe_session(self, gcmd: GCodeCommand) -> _ProbeSession: ...

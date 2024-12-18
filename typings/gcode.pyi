@@ -1,36 +1,27 @@
 # https://github.com/Klipper3d/klipper/blob/master/klippy/gcode.py
 from typing import Callable, NamedTuple, overload
 
-class CommandError(Exception):
-    pass
+class CommandError(Exception): ...
 
 class GCodeCommand:
     error: type[CommandError]
-    class sentinel:
-        pass
+    class sentinel: ...
 
-    def respond_raw(self, msg: str) -> None:
-        pass
-    def respond_info(self, msg: str, log: bool = True) -> None:
-        pass
-    def get_command_parameters(self) -> dict[str, str]:
-        pass
-
+    def respond_raw(self, msg: str) -> None: ...
+    def respond_info(self, msg: str, log: bool = True) -> None: ...
+    def get_command_parameters(self) -> dict[str, str]: ...
     @overload
     def get(
         self,
         name: str,
         default: str | type[sentinel] = sentinel,
-    ) -> str:
-        pass
+    ) -> str: ...
     @overload
     def get(
         self,
         name: str,
         default: None,
-    ) -> str | None:
-        pass
-
+    ) -> str | None: ...
     @overload
     def get_int(
         self,
@@ -38,8 +29,7 @@ class GCodeCommand:
         default: int | type[sentinel] = sentinel,
         minval: int | None = None,
         maxval: int | None = None,
-    ) -> int:
-        pass
+    ) -> int: ...
     @overload
     def get_int(
         self,
@@ -47,9 +37,7 @@ class GCodeCommand:
         default: None,
         minval: int | None = None,
         maxval: int | None = None,
-    ) -> int | None:
-        pass
-
+    ) -> int | None: ...
     @overload
     def get_float(
         self,
@@ -59,8 +47,7 @@ class GCodeCommand:
         maxval: float | None = None,
         above: float | None = None,
         below: float | None = None,
-    ) -> float:
-        pass
+    ) -> float: ...
     @overload
     def get_float(
         self,
@@ -70,8 +57,7 @@ class GCodeCommand:
         maxval: float | None = None,
         above: float | None = None,
         below: float | None = None,
-    ) -> float | None:
-        pass
+    ) -> float | None: ...
 
 class Coord(NamedTuple):
     x: float
@@ -83,14 +69,9 @@ class GCodeDispatch:
     error: type[CommandError]
     Coord: type[Coord]
 
-    def respond_raw(self, msg: str) -> None:
-        pass
-    def respond_info(self, msg: str, log: bool = True) -> None:
-        pass
-
-    def run_script_from_command(self, script: str) -> None:
-        pass
-
+    def respond_raw(self, msg: str) -> None: ...
+    def respond_info(self, msg: str, log: bool = True) -> None: ...
+    def run_script_from_command(self, script: str) -> None: ...
     @overload
     def register_command(
         self,
@@ -98,8 +79,7 @@ class GCodeDispatch:
         func: Callable[[GCodeCommand], None],
         when_not_ready: bool = False,
         desc: str | None = None,
-    ) -> None:
-        pass
+    ) -> None: ...
     @overload
     def register_command(
         self,
@@ -107,13 +87,10 @@ class GCodeDispatch:
         func: None,
         when_not_ready: bool = False,
         desc: str | None = None,
-    ) -> Callable[[GCodeCommand], None]:
-        pass
-
+    ) -> Callable[[GCodeCommand], None]: ...
     def create_gcode_command(
         self,
         command: str,
         commandline: str,
         params: dict[str, str],
-    ) -> GCodeCommand:
-        pass
+    ) -> GCodeCommand: ...

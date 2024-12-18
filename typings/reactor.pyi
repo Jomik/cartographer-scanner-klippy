@@ -2,22 +2,19 @@
 
 from typing import Callable
 
-class ReactorTimer:
-    pass
+class ReactorTimer: ...
 
 _NOW: float
 _NEVER: float
 
 class ReactorCompletion:
-    class sentinel:
-        pass
+    class sentinel: ...
 
-    def test(self) -> bool:
-        pass
-    def complete(self, result: object) -> None:
-        pass
-    def wait(self, waketime: float = _NEVER, waketime_result: object = None) -> object:
-        pass
+    def test(self) -> bool: ...
+    def complete(self, result: object) -> None: ...
+    def wait(
+        self, waketime: float = _NEVER, waketime_result: object = None
+    ) -> object: ...
 
 class Reactor:
     NOW: float
@@ -25,15 +22,10 @@ class Reactor:
     monotonic: Callable[[], float]
     def register_timer(
         self, callback: Callable[[float], float], waketime: float = NEVER
-    ) -> ReactorTimer:
-        pass
-    def update_timer(self, timer_handler: ReactorTimer, waketime: float) -> None:
-        pass
+    ) -> ReactorTimer: ...
+    def update_timer(self, timer_handler: ReactorTimer, waketime: float) -> None: ...
     def register_async_callback(
         self, callback: Callable[[float], None], waketime: float = NOW
-    ) -> None:
-        pass
-    def pause(self, waketime: float) -> float:
-        pass
-    def completion(self) -> ReactorCompletion:
-        pass
+    ) -> None: ...
+    def pause(self, waketime: float) -> float: ...
+    def completion(self) -> ReactorCompletion: ...

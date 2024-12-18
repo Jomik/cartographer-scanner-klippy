@@ -1,8 +1,7 @@
 # https://github.com/Klipper3d/klipper/blob/master/klippy/extras/bed_mesh.py
 from typing import Literal, TypedDict
 
-class BedMeshError(Exception):
-    pass
+class BedMeshError(Exception): ...
 
 class _Params(TypedDict):
     min_x: float
@@ -17,17 +16,13 @@ class _Params(TypedDict):
     tension: float
 
 class ZMesh:
-    def __init__(self, params: _Params, name: str | None) -> None:
-        pass
-    def build_mesh(self, z_matrix: list[list[float]]) -> None:
-        pass
+    def __init__(self, params: _Params, name: str | None) -> None: ...
+    def build_mesh(self, z_matrix: list[list[float]]) -> None: ...
 
 class BedMeshCalibrate:
     mesh_config: _Params
 
 class BedMesh:
     bmc: BedMeshCalibrate
-    def set_mesh(self, mesh: ZMesh) -> None:
-        pass
-    def save_profile(self, prof_name: str) -> None:
-        pass
+    def set_mesh(self, mesh: ZMesh) -> None: ...
+    def save_profile(self, prof_name: str) -> None: ...
