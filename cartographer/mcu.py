@@ -33,7 +33,7 @@ class ScannerMCUHelper:
     _base_read_command: Optional[CommandQueryWrapper[BaseData]] = None
 
     _last_sample: Optional[RawSample] = None
-    _streaming = False
+    _streaming = True
 
     def __init__(self, config: ConfigWrapper):
         printer = config.get_printer()
