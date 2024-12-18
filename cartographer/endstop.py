@@ -19,16 +19,6 @@ class ScannerEndstopWrapper(ProbeEndstopWrapper):
         self._mcu_helper = mcu_helper
         self._dispatch = TriggerDispatch(mcu_helper.get_mcu())
         self._mcu_endstop = ScanEndstop(mcu_helper)
-        self.printer.register_event_handler(
-            "klippy:mcu_identify", self._register_steppers
-        )
-
-    def _register_steppers(self):
-        toolhead = self.printer.lookup_object("toolhead")
-        kin = toolhead.get_kinematics()
-        for stepper in kin.get_steppers():
-            if stepper.is_active_axis("z"):
-                self.add_stepper(stepper)
 
     @override
     def get_mcu(self) -> MCU:
