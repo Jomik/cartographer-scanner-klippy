@@ -51,13 +51,15 @@ class ScannerMCUHelper:
         return self._mcu
 
     def _handle_connect(self) -> None:
-        raise NotImplementedError()
+        self.stop_stream()
 
     def _handle_disconnect(self) -> None:
-        raise NotImplementedError()
+        # TODO: Cleanup streaming
+        pass
 
     def _handle_shutdown(self) -> None:
-        raise NotImplementedError()
+        # TODO: Cleanup streaming
+        pass
 
     def _build_config(self) -> None:
         self._stream_command = self._mcu.lookup_command(
@@ -87,17 +89,23 @@ class ScannerMCUHelper:
     def get_last_sample(self) -> Optional[_RawSample]:
         return self._last_sample
 
-    def toggle_stream(self, enable: bool) -> None:
+    def _set_stream(self, enable: int) -> None:
         if self._stream_command is None:
             raise self._mcu.error("stream command not initialized")
-        self._stream_command.send([1 if enable else 0])
+        self._stream_command.send([enable])
+
+    def start_stream(self) -> None:
+        self._set_stream(1)
+
+    def stop_stream(self) -> None:
+        self._set_stream(0)
 
     def set_threshold(self, trigger: int, untrigger: int) -> None:
         if self._set_threshold_command is None:
             raise self._mcu.error("set threshold command not initialized")
         self._set_threshold_command.send([trigger, untrigger])
 
-    def start_home(
+    def _start_home(
         self,
         trsync_oid: int,
         threshold: int,
@@ -118,6 +126,12 @@ class ScannerMCUHelper:
                 trigger_method,
             ]
         )
+
+    def home_scan(
+        self,
+        trsync_oid: int,
+    ) -> None:
+        self._start_home(trsync_oid, 0, TriggerMethod.SCAN)
 
     def stop_home(self) -> None:
         if self._stop_home_command is None:
