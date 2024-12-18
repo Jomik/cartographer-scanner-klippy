@@ -32,7 +32,6 @@ class ScannerMCUHelper:
     _stop_home_command: Optional[CommandWrapper] = None
     _base_read_command: Optional[CommandQueryWrapper[BaseData]] = None
 
-    _last_sample: Optional[RawSample] = None
     _streaming = True
 
     def __init__(self, config: ConfigWrapper):
@@ -46,7 +45,6 @@ class ScannerMCUHelper:
         printer.register_event_handler("klippy:disconnect", self._handle_disconnect)
         printer.register_event_handler("klippy:shutdown", self._handle_shutdown)
         self._mcu.register_config_callback(self._build_config)
-        self._mcu.register_response(self._handle_data, "cartographer_data")
 
     def get_mcu(self) -> MCU:
         return self._mcu
@@ -82,12 +80,6 @@ class ScannerMCUHelper:
             "cartographer_base_data bytes=%*s offset=%hu",
             cq=self._command_queue,
         )
-
-    def _handle_data(self, sample: RawSample) -> None:
-        self._last_sample = sample
-
-    def get_last_sample(self) -> Optional[RawSample]:
-        return self._last_sample
 
     def _set_stream(self, enable: int) -> None:
         if self._stream_command is None:

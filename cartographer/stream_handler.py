@@ -30,6 +30,9 @@ class StreamHandler:
         self._reactor = printer.get_reactor()
         self._mcu_helper = mcu_helper
         self._timeout_timer = self._reactor.register_timer(self._timeout)
+        self._mcu_helper.get_mcu().register_response(
+            self._handle_data, "cartographer_data"
+        )
 
     def session(
         self,
@@ -44,6 +47,10 @@ class StreamHandler:
         )
         self._register_session(session)
         return session
+
+    def _handle_data(self, data: RawSample) -> None:
+        self._buffer.append(data)
+        self._schedule_flush()
 
     def _timeout(self, eventtime: float) -> float:
         if self._flush():
