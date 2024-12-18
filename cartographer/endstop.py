@@ -138,6 +138,6 @@ class ScanEndstop(MCU_endstop):
         if sample is None:
             return 0
         # TODO: Read trigger frequency from model
-        if sample["freq"] > TRIGGER_FREQ:
+        if sample["data"] > TRIGGER_FREQ:
             return 1
         return 0
