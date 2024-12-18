@@ -57,8 +57,11 @@ class StreamHandler:
         return self._reactor.NEVER
 
     def _register_session(self, session: StreamSession) -> None:
+        if len(self._sessions) == 0:
+            curtime = self._reactor.monotonic()
+            self._reactor.update_timer(self._timeout_timer, curtime + TIMEOUT)
+            self._mcu_helper.start_stream()
         self._sessions.append(session)
-        self._mcu_helper.start_stream()
 
     def _remove_session(self, session: StreamSession) -> bool:
         found = session in self._sessions
@@ -66,6 +69,7 @@ class StreamHandler:
             self._sessions.remove(session)
         if not self._sessions:
             self._mcu_helper.stop_stream()
+            self._reactor.update_timer(self._timeout_timer, Reactor.NEVER)
         return found
 
     def _schedule_flush(self):
