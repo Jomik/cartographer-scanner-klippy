@@ -9,7 +9,7 @@ from configfile import ConfigWrapper
 from mcu import MCU, CommandQueryWrapper, CommandWrapper, MCU_trsync
 
 
-class _RawSample(TypedDict):
+class RawSample(TypedDict):
     clock: int
     data: int
     temp: int
@@ -32,7 +32,8 @@ class ScannerMCUHelper:
     _stop_home_command: Optional[CommandWrapper] = None
     _base_read_command: Optional[CommandQueryWrapper[BaseData]] = None
 
-    _last_sample: Optional[_RawSample] = None
+    _last_sample: Optional[RawSample] = None
+    _streaming = False
 
     def __init__(self, config: ConfigWrapper):
         printer = config.get_printer()
@@ -82,11 +83,10 @@ class ScannerMCUHelper:
             cq=self._command_queue,
         )
 
-    def _handle_data(self, sample: _RawSample) -> None:
+    def _handle_data(self, sample: RawSample) -> None:
         self._last_sample = sample
-        logging.info(f"Sample: {sample}")
 
-    def get_last_sample(self) -> Optional[_RawSample]:
+    def get_last_sample(self) -> Optional[RawSample]:
         return self._last_sample
 
     def _set_stream(self, enable: int) -> None:
@@ -95,10 +95,21 @@ class ScannerMCUHelper:
         self._stream_command.send([enable])
 
     def start_stream(self) -> None:
+        if self._streaming:
+            return
+        logging.info("Starting cartographer data stream")
         self._set_stream(1)
+        self._streaming = True
 
     def stop_stream(self) -> None:
+        if not self._streaming:
+            return
+        logging.info("Stopping cartographer data stream")
         self._set_stream(0)
+        self._streaming = False
+
+    def is_streaming(self) -> bool:
+        return self._streaming
 
     def set_threshold(self, trigger: int, untrigger: int) -> None:
         if self._set_threshold_command is None:
