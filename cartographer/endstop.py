@@ -72,11 +72,11 @@ class ScannerEndstopWrapper(ProbeEndstopWrapper):
 
     @override
     def probe_prepare(self, hmove: float) -> None:
-        return
+        pass
 
     @override
     def probe_finish(self, hmove: float) -> None:
-        return
+        pass
 
     @override
     def get_position_endstop(self) -> float:
