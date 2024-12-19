@@ -13,7 +13,7 @@ from reactor import Reactor
 from cartographer.mcu import RawSample, ScannerMCUHelper
 
 # TODO: Actually buffer stuff
-BUFFER_LIMIT_DEFAULT = 1
+BUFFER_LIMIT_DEFAULT = 100
 TIMEOUT = 2.0
 
 
@@ -36,9 +36,15 @@ class StreamHandler:
 
     def session(
         self,
-        callback: Callable[[RawSample], None],
+        callback: Callable[[RawSample], bool],
         completion_callback: Optional[Callable[[], None]] = None,
     ) -> StreamSession:
+        """
+        Start a stream session to receive data
+
+        :param callback: Should return True if the session is complete
+        :param completion_callback: Called when the session is stopped
+        """
         session = StreamSession(
             self._reactor,
             self._remove_session,
@@ -125,7 +131,7 @@ class StreamSession:
         self,
         reactor: Reactor,
         remove_session: Callable[[StreamSession], bool],
-        callback: Callable[[RawSample], None],
+        callback: Callable[[RawSample], bool],
         completion_callback: Optional[Callable[[], None]] = None,
     ) -> None:
         self._callback = callback
@@ -145,9 +151,7 @@ class StreamSession:
         self.stop()
 
     def handle(self, sample: RawSample) -> None:
-        try:
-            self._callback(sample)
-        except StopStreaming:
+        if self._callback(sample):
             self._completion.complete(())
 
     def stop(self):
@@ -159,7 +163,3 @@ class StreamSession:
     def wait(self):
         _ = self._completion.wait()
         self.stop()
-
-
-class StopStreaming(Exception):
-    pass

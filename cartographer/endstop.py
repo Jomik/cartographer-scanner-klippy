@@ -144,9 +144,10 @@ class ScanEndstop(MCU_endstop):
         # TODO: Use a query state command for actual state
         sample = None
 
-        def callback(data: RawSample):
+        def callback(data: RawSample) -> bool:
             nonlocal sample
             sample = data
+            return True
 
         with self._stream_handler.session(callback) as session:
             session.wait()
