@@ -3,11 +3,10 @@ from __future__ import annotations
 from typing import final
 
 from configfile import ConfigWrapper
-from extras.homing import Homing
 from extras.probe import ProbeEndstopWrapper
 from mcu import MCU, MCU_endstop, MCU_trsync, TriggerDispatch
 from reactor import ReactorCompletion
-from stepper import MCU_stepper, PrinterRail
+from stepper import MCU_stepper
 from typing_extensions import override
 
 from cartographer.mcu import RawSample, ScannerMCUHelper
@@ -30,19 +29,6 @@ class ScannerEndstopWrapper(ProbeEndstopWrapper):
         self._mcu_helper = mcu_helper
         self._dispatch = TriggerDispatch(mcu_helper.get_mcu())
         self._mcu_endstop = ScanEndstop(mcu_helper, stream_handler)
-
-        self._printer.register_event_handler(
-            "homing:home_rails_end", self._handle_home_rails_end
-        )
-
-    def _handle_home_rails_end(
-        self, homing_state: Homing, rails: list[PrinterRail]
-    ) -> None:
-        endstops = [es for rail in rails for es, _name in rail.get_endstops()]
-        if self in endstops:
-            # TODO: Calculate distance from model
-            dist = 2.0
-            homing_state.set_homed_position([None, None, dist])
 
     @override
     def get_mcu(self) -> MCU:
