@@ -1,7 +1,7 @@
 # https://github.com/Klipper3d/klipper/blob/master/klippy/stepper.py
-from typing import Literal
+from typing import Literal, Tuple
 
-from mcu import MCU
+from mcu import MCU, MCU_endstop
 
 type _Pos = list[float]
 
@@ -11,4 +11,6 @@ class MCU_stepper:
     def get_commanded_position(self) -> _Pos: ...
     def is_active_axis(self, axis: Literal["x", "y", "z", "e"]) -> bool: ...
 
-class PrinterRail: ...
+class PrinterRail:
+    def get_steppers(self) -> list[MCU_stepper]: ...
+    def get_endstops(self) -> list[Tuple[MCU_endstop, str]]: ...

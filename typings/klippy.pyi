@@ -4,7 +4,7 @@ from typing import Callable, Literal, TypeVar, overload
 import configfile
 from extras.bed_mesh import BedMesh
 from extras.heaters import PrinterHeaters
-from extras.homing import PrinterHoming
+from extras.homing import Homing, PrinterHoming
 from extras.probe import PrinterProbe
 from configfile import ConfigWrapper, PrinterConfig, sentinel
 from gcode import CommandError, GCodeDispatch
@@ -63,13 +63,13 @@ class Printer:
     def register_event_handler(
         self,
         event: Literal["homing:home_rails_begin"],
-        callback: Callable[[PrinterHoming, list[PrinterRail]], None],
+        callback: Callable[[Homing, list[PrinterRail]], None],
     ) -> None: ...
     @overload
     def register_event_handler(
         self,
         event: Literal["homing:home_rails_end"],
-        callback: Callable[[PrinterHoming, list[PrinterRail]], None],
+        callback: Callable[[Homing, list[PrinterRail]], None],
     ) -> None: ...
     @overload
     def lookup_object(self, name: Literal["configfile"]) -> PrinterConfig: ...
