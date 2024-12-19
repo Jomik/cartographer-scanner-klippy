@@ -99,7 +99,6 @@ class StreamHandler:
         def wrapped_flush(_: float) -> None:
             _ = self._flush()
 
-        logging.info("Scheduling flush")
         self._reactor.register_async_callback(wrapped_flush)
 
     def _flush(self) -> bool:
