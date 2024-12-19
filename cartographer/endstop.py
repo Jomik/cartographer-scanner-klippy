@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from typing import final
 
 from configfile import ConfigWrapper
@@ -120,12 +121,14 @@ class ScanEndstop(MCU_endstop):
         triggered: bool = True,
     ) -> ReactorCompletion[bool]:
         # TODO: Set threshold
+        logging.info(f"Start homing, {print_time}")
         trigger_completion = self._dispatch.start(print_time)
         self._mcu_helper.home_scan(self._dispatch.get_oid())
         return trigger_completion
 
     @override
     def home_wait(self, home_end_time: float) -> float:
+        logging.info(f"Wait homing, {home_end_time}")
         self._dispatch.wait_end(home_end_time)
         self._mcu_helper.stop_home()
         res = self._dispatch.stop()
