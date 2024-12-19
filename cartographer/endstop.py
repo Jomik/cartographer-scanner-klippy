@@ -9,12 +9,13 @@ from reactor import ReactorCompletion
 from stepper import MCU_stepper
 from typing_extensions import override
 
-from cartographer.mcu import RawSample, ScannerMCUHelper
+from cartographer.mcu import (
+    TRIGGER_DISTANCE,
+    TRIGGER_FREQ_COUNT,
+    RawSample,
+    ScannerMCUHelper,
+)
 from cartographer.stream_handler import StreamHandler
-
-# TODO: These probably live on the model
-TRIGGER_DISTANCE = 2.0
-TRIGGER_FREQ = 33784425
 
 
 @final
@@ -155,6 +156,6 @@ class ScanEndstop(MCU_endstop):
         if sample is None:
             return 0
         # TODO: Read trigger frequency from model
-        if sample["data"] > TRIGGER_FREQ:
+        if sample["data"] > TRIGGER_FREQ_COUNT:
             return 1
         return 0

@@ -9,6 +9,13 @@ from configfile import ConfigWrapper
 from mcu import MCU, CommandQueryWrapper, CommandWrapper, MCU_trsync
 
 
+# TODO: These probably live on the model
+TRIGGER_DISTANCE = 2.0
+TRIGGER_HYSTERESIS = 0.006
+TRIGGER_FREQ_COUNT = 33784425
+UNTRIGGER_FREQ_COUNT = int(TRIGGER_FREQ_COUNT * (1 - TRIGGER_HYSTERESIS))
+
+
 class RawSample(TypedDict):
     clock: int
     data: int
@@ -51,6 +58,7 @@ class ScannerMCUHelper:
 
     def _handle_connect(self) -> None:
         self.stop_stream()
+        self.set_threshold(TRIGGER_FREQ_COUNT, UNTRIGGER_FREQ_COUNT)
 
     def _handle_disconnect(self) -> None:
         # TODO: Cleanup streaming
