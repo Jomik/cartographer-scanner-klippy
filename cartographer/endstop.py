@@ -121,8 +121,9 @@ class ScanEndstop(MCU_endstop):
         triggered: bool = True,
     ) -> ReactorCompletion[bool]:
         # TODO: Set threshold
-        logging.info(f"Start homing, {print_time}")
+        logging.info(f"Start homing, {print_time}, rest_time: {rest_time}")
         trigger_completion = self._dispatch.start(print_time)
+        self._mcu.get_printer().lookup_object("toolhead").wait_moves()
         self._mcu_helper.home_scan(self._dispatch.get_oid())
         return trigger_completion
 
