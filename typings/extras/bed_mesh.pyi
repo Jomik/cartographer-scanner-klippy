@@ -1,6 +1,8 @@
 # https://github.com/Klipper3d/klipper/blob/master/klippy/extras/bed_mesh.py
 from typing import Literal, TypedDict
 
+type _Pos = list[float]
+
 class BedMeshError(Exception): ...
 
 class _Params(TypedDict):
@@ -17,7 +19,7 @@ class _Params(TypedDict):
 
 class ZMesh:
     def __init__(self, params: _Params, name: str | None) -> None: ...
-    def build_mesh(self, z_matrix: list[list[float]]) -> None: ...
+    def build_mesh(self, z_matrix: list[_Pos]) -> None: ...
 
 class BedMeshCalibrate:
     mesh_config: _Params
